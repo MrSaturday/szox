@@ -1,1 +1,5 @@
 build
+.cproject
+.project
+.ninja*
+*cmake_install*
