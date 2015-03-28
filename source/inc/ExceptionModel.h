@@ -10,6 +10,8 @@
 
 #include <stdexcept>
 
+//TODO: change all parameters to references
+
 namespace ExceptionModel
 {
 
