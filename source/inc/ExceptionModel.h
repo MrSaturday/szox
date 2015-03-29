@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-//TODO: change all parameters to references
+//TODO: think of std::move and std::forward
 
 namespace ExceptionModel
 {
@@ -19,23 +19,34 @@ template<typename T>
 class exception : public std::runtime_error
 {
 public:
-    exception(const std::string& msg, std::string file, unsigned int line, T& object) :
+    exception(const std::string& msg, const std::string& file, unsigned int line, T& object) :
         std::runtime_error(formatMessage(msg, file, line)), object(object)
     {
     }
 
     T object;
 private:
-    std::string formatMessage(std::string msg, std::string file, unsigned int line)
+    std::string formatMessage(const std::string& msg, const std::string& file, unsigned int line)
     {
-        auto fileNameIdx = file.begin() + file.rfind('/') + 1;
-        file.erase(file.begin(), fileNameIdx);
-        return std::string(msg + "; location: " + file + "@" + std::to_string(line));
+        return std::string(msg +
+                           "; location: " +
+                           getFileNameFromAsolutePath(file) +
+                           "@" +
+                           std::to_string(line));
+    }
+
+    std::string getFileNameFromAsolutePath(const std::string& path)
+    {
+        auto fileIdx = path.rfind('/') + 1;
+        return std::string(path, fileIdx);
     }
 };
 
 template<typename T>
-static inline exception<T> create(const std::string& msg, std::string file, unsigned int line, T& object)
+static inline exception<T> create(const std::string& msg,
+                                  const std::string& file,
+                                  unsigned int line,
+                                  T& object)
 {
     return exception<T>(msg, file, line, object);
 }
