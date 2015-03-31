@@ -3,7 +3,7 @@ include_directories ("gtest/include")
 include_directories("${PROJECT_SOURCE_DIR}/inc")
 include_directories("${PROJECT_SOURCE_DIR}/src")
 
-add_executable(ut NDArray_test.cc ExceptionModel_test.cc)
+add_executable(ut NDArray_test.cc ExceptionModel_test.cc NDPointTest.cc ChainTest.cc)
 target_link_libraries(ut LINK_PUBLIC gtest_main)
 
 add_custom_target(run_uts

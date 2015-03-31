@@ -19,7 +19,7 @@ template<typename T>
 class exception : public std::runtime_error
 {
 public:
-    exception(const std::string& msg, const std::string& file, unsigned int line, T& object) :
+    exception(const std::string& msg, const std::string& file, unsigned int line, const T& object) :
         std::runtime_error(formatMessage(msg, file, line)), object(object)
     {
     }
@@ -46,13 +46,13 @@ template<typename T>
 static inline exception<T> create(const std::string& msg,
                                   const std::string& file,
                                   unsigned int line,
-                                  T& object)
+                                  const T& object)
 {
     return exception<T>(msg, file, line, object);
 }
 
 }
 
-#define THROW(str) throw ExceptionModel::create<typename std::remove_reference<decltype(*this)>::type>(str, __FILE__, __LINE__, *this)
+#define THROW(str) throw ExceptionModel::create<typename std::remove_const<typename std::remove_reference<decltype(*this)>::type>::type>(str, __FILE__, __LINE__, *this)
 
 #endif /* EXCEPTION_MODEL_H_ */

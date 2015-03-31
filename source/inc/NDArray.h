@@ -1,10 +1,3 @@
-/*
- * ndarray.h
- *
- *  Created on: Mar 25, 2015
- *      Author: sajmon
- */
-
 #ifndef NDARRAY_H_
 #define NDARRAY_H_
 
@@ -34,4 +27,4 @@ private:
 
 #include <NDArray.cc>
 
-#endif /* NDARRAY_H_ */
+#endif // NDARRAY_H_
