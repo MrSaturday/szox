@@ -10,6 +10,8 @@ public:
     NDPoint(std::vector<unsigned>&& coordinates) :
         coords(std::move(coordinates))
     {
+        if(coords.size() == 0)
+            THROW("Initialization with no dimensions");
     }
 
     std::size_t dimensions() const
@@ -26,10 +28,11 @@ public:
 
     bool operator==(const NDPoint& other) const
     {
-        return coords==other.coords;
+        return coords == other.coords;
     }
+
 private:
-    const std::vector<unsigned> coords;
+    std::vector<unsigned> coords;
 };
 
 #endif /* NDPOINT_H_ */

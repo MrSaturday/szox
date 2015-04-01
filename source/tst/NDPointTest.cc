@@ -9,6 +9,11 @@ TEST(NDPointTest, InitalizestToCorrectNumberOfDimensions)
     EXPECT_EQ(3, point3D.dimensions());
 }
 
+TEST(NDPointTest, InitializesToNoDimensions)
+{
+    EXPECT_THROW(NDPoint point({}), ExceptionModel::exception<NDPoint>);
+}
+
 TEST(NDPointTest, AccessToAllDimensions)
 {
     NDPoint point({0,1,2});

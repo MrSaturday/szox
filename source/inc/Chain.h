@@ -1,22 +1,20 @@
 #ifndef CHAIN_H_
 #define CHAIN_H_
 
+#include <experimental/optional>
 #include <NDPoint.h>
 #include <ExceptionModel.h>
+
+using std::experimental::optional;
 
 class Chain
 {
 public:
-    explicit Chain(const NDPoint& point) :
-        beginPt(point), endPt(point), dimensions(point.dimensions())
+    explicit Chain(const NDPoint& first, optional<NDPoint> last = optional<NDPoint>()) :
+        beginPt(first), endPt(first), dimensions(first.dimensions())
     {
-    }
-
-    Chain(const NDPoint& first, const NDPoint& last) :
-        beginPt(first), endPt(last), dimensions(first.dimensions())
-    {
-        if(beginPt.dimensions() != endPt.dimensions())
-            THROW("Initialization with dimension-incompatible points");
+        if(last)
+            append(last.value());
     }
 
     std::size_t size() const
@@ -36,6 +34,14 @@ public:
     {
         return endPt;
     }
+
+    void append(const NDPoint& point)
+    {
+        if(point.dimensions() != dimensions)
+            THROW("New point has incompatible number of dimensions");
+        endPt = point;
+    }
+
 private:
     NDPoint beginPt;
     NDPoint endPt;
