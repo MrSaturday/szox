@@ -27,6 +27,13 @@ TEST(ChainTest, InitializationWithIncompatiblePoints)
     EXPECT_THROW(Chain(point2D, point3D), ExceptionModel::exception<Chain>);
 }
 
+TEST(ChainTest, InitializationWithNonCollinearPoints)
+{
+    const NDPoint point1({0,0});
+    const NDPoint point2({1,2});
+    EXPECT_THROW(Chain(point1, point2), ExceptionModel::exception<Chain>);
+}
+
 TEST(ChainTest, CalculatesCorrectSizeInAllDirections)
 {
     Chain chainE(NDPoint({0,0}), NDPoint({1,0}));

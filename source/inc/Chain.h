@@ -1,6 +1,8 @@
 #ifndef CHAIN_H_
 #define CHAIN_H_
 
+#include <cmath>
+#include <algorithm>
 #include <experimental/optional>
 #include <NDPoint.h>
 #include <ExceptionModel.h>
@@ -14,7 +16,8 @@ public:
         beginPt(first), endPt(first), dimensions(first.dimensions())
     {
         if(last)
-            append(last.value());
+            if(!append(last.value()))
+                THROW("Initializing with non-collinear points");
     }
 
     std::size_t size() const
@@ -25,24 +28,43 @@ public:
         return 1;
     }
 
-    const NDPoint& begin() const
+    const NDPoint& begin() const noexcept
     {
         return beginPt;
     }
 
-    const NDPoint& end() const
+    const NDPoint& end() const noexcept
     {
         return endPt;
     }
 
-    void append(const NDPoint& point)
+    bool append(const NDPoint& point)
     {
         if(point.dimensions() != dimensions)
             THROW("New point has incompatible number of dimensions");
-        endPt = point;
+        if(isCollinear(point))
+        {
+            endPt = point;
+            return true;
+        }
+        return false;
     }
 
 private:
+    bool isCollinear(const NDPoint& point)
+    {
+        std::vector<unsigned> diffs;
+        for(unsigned int i=0; i<dimensions; ++i)
+        {
+            unsigned diff = std::abs(static_cast<int>(point.getCoordinate(i) - beginPt.getCoordinate(i)));
+            if(diff)
+                diffs.push_back(diff);
+        }
+        return std::all_of(diffs.begin(),
+                           diffs.end(),
+                           [&](const auto& elem){ return elem == diffs.front(); } );
+    }
+
     NDPoint beginPt;
     NDPoint endPt;
     std::size_t dimensions;
