@@ -27,3 +27,22 @@ TEST(NDPointTest, AccessToInvalidDimension)
     NDPoint point({0,0});
     EXPECT_THROW(point.getCoordinate(2), ExceptionModel::exception<NDPoint>);
 }
+
+TEST(NDPointTest, LessThan)
+{
+    NDPoint point ({1,1});
+    EXPECT_TRUE(point < NDPoint({1,2}));
+    EXPECT_TRUE(point < NDPoint({2,1}));
+    EXPECT_TRUE(point < NDPoint({2,2}));
+    EXPECT_TRUE(point < NDPoint({2,0}));
+    EXPECT_FALSE(point < NDPoint({1,1}));
+    EXPECT_FALSE(point < NDPoint({0,0}));
+    EXPECT_FALSE(point < NDPoint({0,1}));
+    EXPECT_FALSE(point < NDPoint({0,2}));
+    EXPECT_FALSE(point < NDPoint({1,0}));
+}
+
+TEST(NDPointTest, LessThanIncompatibleDimensions)
+{
+    EXPECT_THROW(bool res = NDPoint({0,0}) < NDPoint({0,0,0}), ExceptionModel::exception<NDPoint>);
+}

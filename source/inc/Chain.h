@@ -40,17 +40,20 @@ public:
 
     bool append(const NDPoint& point)
     {
+        //TODO: assert(point.dimensions() != dimensions)
         if(point.dimensions() != dimensions)
             THROW("New point has incompatible number of dimensions");
-        if(isCollinear(point))
-        {
+        if(!validatePointToAppend(point))
+            return false;
+
+        if(point < beginPt)
+            beginPt = point;
+        else
             endPt = point;
-            return true;
-        }
-        return false;
+        return true;
     }
 
-private:
+private: // = assume all data passed here is valid
     bool isCollinear(const NDPoint& point)
     {
         std::vector<unsigned> diffs;
@@ -63,6 +66,15 @@ private:
         return std::all_of(diffs.begin(),
                            diffs.end(),
                            [&](const auto& elem){ return elem == diffs.front(); } );
+    }
+
+    bool validatePointToAppend(const NDPoint& point)
+    {
+        if(!isCollinear(point))
+            return false;
+        if(point < endPt && beginPt < point)
+            return false;
+        return true;
     }
 
     NDPoint beginPt;

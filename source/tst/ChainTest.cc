@@ -51,3 +51,27 @@ TEST(ChainTest, CalculatesCorrectSizeInAllDirections)
     Chain chain5D(NDPoint({0,0,2,0,0}), NDPoint({0,0,5,0,0}));
     EXPECT_EQ(4, chain5D.size());
 }
+
+TEST(ChainTest, AppendToSinglePoint)
+{
+    Chain chain(NDPoint({0,0}));
+    EXPECT_TRUE(chain.append(NDPoint({1,0})));
+    EXPECT_EQ(NDPoint({0,0}), chain.begin());
+    EXPECT_EQ(NDPoint({1,0}), chain.end());
+    EXPECT_EQ(2, chain.size());
+}
+
+TEST(ChainTest, AppendInFrontOfASinglePoint)
+{
+    Chain chain(NDPoint({1,1}));
+    EXPECT_TRUE(chain.append(NDPoint({0,0})));
+    EXPECT_EQ(NDPoint({0,0}), chain.begin());
+    EXPECT_EQ(NDPoint({1,1}), chain.end());
+    EXPECT_EQ(2, chain.size());
+}
+
+TEST(ChainTest, AppendIntoMiddleOfAChain)
+{
+    Chain chain(NDPoint({0,0}), NDPoint({0,2}));
+    EXPECT_FALSE(chain.append(NDPoint({0,1})));
+}
