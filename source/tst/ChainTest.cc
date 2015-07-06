@@ -75,3 +75,16 @@ TEST(ChainTest, AppendIntoMiddleOfAChain)
     Chain chain(NDPoint({0,0}), NDPoint({0,2}));
     EXPECT_FALSE(chain.append(NDPoint({0,1})));
 }
+
+TEST(ChainTest, AppendIntoEdgeOfAChain)
+{
+    Chain chain(NDPoint({1,2,3}), NDPoint({4,5,6}));
+    EXPECT_FALSE(chain.append(NDPoint({1,2,3})));
+    EXPECT_FALSE(chain.append(NDPoint({4,5,6})));
+}
+
+TEST(ChainTest, NotAppendedToCollinearBeginPtButNonCollnearChain)
+{
+    Chain chain(NDPoint({1,1}), NDPoint({2,2}));
+    EXPECT_FALSE(chain.append(NDPoint({0,2})));
+}

@@ -8,6 +8,7 @@
 #ifndef EXCEPTION_MODEL_H_
 #define EXCEPTION_MODEL_H_
 
+#include <string>
 #include <stdexcept>
 
 //TODO: think of std::move and std::forward

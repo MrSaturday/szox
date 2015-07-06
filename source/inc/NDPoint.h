@@ -7,41 +7,15 @@
 class NDPoint
 {
 public:
-    NDPoint(std::vector<unsigned>&& coordinates) :
-        coords(std::move(coordinates))
-    {
-        if(coords.size() == 0)
-            THROW("Initialization with no dimensions");
-    }
+    NDPoint(std::vector<unsigned>&& coordinates);
 
-    std::size_t dimensions() const
-    {
-        return coords.size();
-    }
+    unsigned    getCoordinate(std::size_t dimension) const;
+    std::size_t dimensions()              const { return coords.size(); }
 
-    unsigned getCoordinate(std::size_t dimension) const
-    {
-        if(dimension >= dimensions())
-            THROW("Dimension overflow");
-        return coords[dimension];
-    }
-
-    bool operator==(const NDPoint& other) const
-    {
-        return coords == other.coords;
-    }
-
-    bool operator<(const NDPoint& other) const
-    {
-        if(other.dimensions() != dimensions())
-            THROW("Incompatible dimensions");
-        for(std::size_t dim=0; dim<dimensions(); dim++)
-            if(getCoordinate(dim) < other.getCoordinate(dim))
-                return true;
-            else if(getCoordinate(dim) > other.getCoordinate(dim))
-                return false;
-        return false;
-    }
+    bool operator==(const NDPoint& other) const { return coords == other.coords; }
+    bool operator!=(const NDPoint& other) const { return !(*this == other); }
+    bool operator<=(const NDPoint& other) const { return (*this < other) || (*this == other); }
+    bool operator< (const NDPoint& other) const;
 
 private:
     std::vector<unsigned> coords;
