@@ -2,4 +2,5 @@ build
 .cproject
 .project
 .ninja*
+.ycm*
 *cmake_install*
