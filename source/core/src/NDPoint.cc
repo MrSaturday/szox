@@ -18,7 +18,7 @@ bool NDPoint::operator<(const NDPoint& other) const
 {
     if(other.dimensions() != dimensions())
         THROW("Incompatible dimensions");
-    for(std::size_t dim=0; dim<dimensions(); dim++)
+    for(std::size_t dim = 0; dim < dimensions(); dim++)
         if(getCoordinate(dim) < other.getCoordinate(dim))
             return true;
         else if(getCoordinate(dim) > other.getCoordinate(dim))

@@ -25,6 +25,6 @@ private:
     std::vector<T>              elements;
 };
 
-#include <NDArray.cc>
+#include <NDArray.tt>
 
 #endif // NDARRAY_H_
