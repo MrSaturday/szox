@@ -2,7 +2,6 @@
 #define NDPOINT_H_
 
 #include <vector>
-#include <ExceptionModel.h>
 
 class NDPoint
 {

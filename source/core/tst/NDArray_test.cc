@@ -15,17 +15,12 @@ TEST(NDArrayTest, InitializesToCorrectSize)
 
 TEST(NDArrayTest, InvalidInitializationNoDimensions)
 {
-    EXPECT_THROW(NDArray<int> dummy({}), ExceptionModel::exception<NDArray<int>>);
+    EXPECT_DEATH(NDArray<int> dummy({}), "");
 }
 
 TEST(NDArrayTest, InvalidInitializationZeroSizeDimension)
 {
-    EXPECT_THROW(NDArray<int> dummy({0,1,2}), ExceptionModel::exception<NDArray<int>>);
-}
-
-TEST(NDArrayTest, InvalidInitializationZeroSize)
-{
-    EXPECT_THROW(NDArray<int> dummy({0,1,2}), ExceptionModel::exception<NDArray<int>>);
+    EXPECT_DEATH(NDArray<int> dummy({0,1,2}), "");
 }
 
 TEST(NDArrayTest, FillUpArray)
@@ -46,12 +41,12 @@ TEST(NDArrayTest, FillUpArray)
 TEST(NDArrayTest, AccessToInvalidDimension)
 {
     NDArray<int> array({3,3,3});
-    EXPECT_THROW(array.data({0,0})     = 42,    ExceptionModel::exception<NDArray<int>>);
-    EXPECT_THROW(array.data({0,0,0,0}) = 42,    ExceptionModel::exception<NDArray<int>>);
+    EXPECT_DEATH(array.data({0,0})     = 42, "");
+    EXPECT_DEATH(array.data({0,0,0,0}) = 42, "");
 }
 
-TEST(NDArrayTest, AccessToIvalidIndex)
+TEST(NDArrayTest, ArrayOverflowInOneDimension)
 {
     NDArray<int> array({3,3,3});
-    EXPECT_THROW(array.data({2,3,2}) = 42,      ExceptionModel::exception<NDArray<int>>);
+    EXPECT_DEATH(array.data({2,3,2}) = 42, "");
 }

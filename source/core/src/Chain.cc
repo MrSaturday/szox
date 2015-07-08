@@ -1,14 +1,15 @@
 #include <Chain.h>
+#include <DirectionVector.h>
 
 #include <cmath>
 #include <algorithm>
+#include <cassert>
 
 Chain::Chain(const NDPoint& first, optional<NDPoint> last) :
     beginPt(first), endPt(first), dimensions(first.dimensions())
 {
     if(last)
-        if(!append(last.value()))
-            THROW("Initializing with non-collinear points");
+        assert(append(last.value()));
 }
 
 std::size_t Chain::size() const
@@ -21,9 +22,7 @@ std::size_t Chain::size() const
 
 bool Chain::append(const NDPoint& point)
 {
-    //TODO: assert(point.dimensions() == dimensions)
-    if(point.dimensions() != dimensions)
-        THROW("New point has incompatible number of dimensions");
+    assert(point.dimensions() == dimensions);
     if(!validatePointToAppend(point))
         return false;
 

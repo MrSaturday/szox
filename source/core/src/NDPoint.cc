@@ -1,23 +1,22 @@
 #include <NDPoint.h>
 
+#include <cassert>
+
 NDPoint::NDPoint(std::vector<unsigned>&& coordinates):
     coords(std::move(coordinates))
 {
-    if(coords.size() == 0)
-        THROW("Initialization with no dimensions");
+    assert(coords.size() != 0);
 }
 
 unsigned NDPoint::getCoordinate(std::size_t dimension) const
 {
-    if(dimension >= dimensions())
-        THROW("Dimension overflow");
+    assert(dimension < dimensions());
     return coords[dimension];
 }
 
 bool NDPoint::operator<(const NDPoint& other) const
 {
-    if(other.dimensions() != dimensions())
-        THROW("Incompatible dimensions");
+    assert(other.dimensions() == dimensions());
     for(std::size_t dim = 0; dim < dimensions(); dim++)
         if(getCoordinate(dim) < other.getCoordinate(dim))
             return true;

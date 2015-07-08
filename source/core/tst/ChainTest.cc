@@ -24,14 +24,14 @@ TEST(ChainTest, InitializationWithIncompatiblePoints)
 {
     const NDPoint point2D({0,0});
     const NDPoint point3D({1,1,1});
-    EXPECT_THROW(Chain(point2D, point3D), ExceptionModel::exception<Chain>);
+    EXPECT_DEATH(Chain(point2D, point3D), "");
 }
 
 TEST(ChainTest, InitializationWithNonCollinearPoints)
 {
     const NDPoint point1({0,0});
     const NDPoint point2({1,2});
-    EXPECT_THROW(Chain(point1, point2), ExceptionModel::exception<Chain>);
+    EXPECT_DEATH(Chain(point1, point2), "");
 }
 
 TEST(ChainTest, CalculatesCorrectSizeInAllDirections)

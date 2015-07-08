@@ -2,8 +2,6 @@
 #define CHAIN_H_
 
 #include <NDPoint.h>
-#include <ExceptionModel.h>
-#include <DirectionVector.h>
 
 #include <experimental/optional>
 

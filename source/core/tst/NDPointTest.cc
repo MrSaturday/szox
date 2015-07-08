@@ -11,7 +11,7 @@ TEST(NDPointTest, InitalizestToCorrectNumberOfDimensions)
 
 TEST(NDPointTest, InitializesToNoDimensions)
 {
-    EXPECT_THROW(NDPoint point({}), ExceptionModel::exception<NDPoint>);
+    EXPECT_DEATH(NDPoint point({}), "");
 }
 
 TEST(NDPointTest, AccessToAllDimensions)
@@ -25,7 +25,7 @@ TEST(NDPointTest, AccessToAllDimensions)
 TEST(NDPointTest, AccessToInvalidDimension)
 {
     NDPoint point({0,0});
-    EXPECT_THROW(point.getCoordinate(2), ExceptionModel::exception<NDPoint>);
+    EXPECT_DEATH(point.getCoordinate(2), "");
 }
 
 TEST(NDPointTest, LessThan)
@@ -44,5 +44,5 @@ TEST(NDPointTest, LessThan)
 
 TEST(NDPointTest, LessThanIncompatibleDimensions)
 {
-    EXPECT_THROW(bool res = NDPoint({0,0}) < NDPoint({0,0,0}), ExceptionModel::exception<NDPoint>);
+    EXPECT_DEATH(bool res = NDPoint({0,0}) < NDPoint({0,0,0}), "");
 }

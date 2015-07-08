@@ -1,19 +1,17 @@
 #include <NDArray.h>
-#include <ExceptionModel.h>
+#include <cassert>
 
 template<typename T>
 NDArray<T>::NDArray(std::vector<std::size_t>&& dimensionsLengths) :
     dimensions(std::move(dimensionsLengths)),
     elements(calculateTotalNumberOfElements(dimensions))
 {
-    if(dimensions.size() == 0)
-        THROW("attempted to create 0-dimensioned array");
-    if(elements.size() == 0)
-        THROW("at least one dimension's size is 0");
+    assert(dimensions.size() != 0);
+    assert(elements.size() != 0);
 }
 
 template<typename T>
-size_t NDArray<T>::calculateTotalNumberOfElements(const std::vector<std::size_t>& dimensionsLengths)
+std::size_t NDArray<T>::calculateTotalNumberOfElements(const std::vector<std::size_t>& dimensionsLengths)
 {
     unsigned int numOfElements = 1;
     for(const auto dimensionLength : dimensionsLengths)
@@ -25,20 +23,22 @@ size_t NDArray<T>::calculateTotalNumberOfElements(const std::vector<std::size_t>
 template<typename T>
 T& NDArray<T>::data(const std::vector<std::size_t>& indexes)
 {
-    validateAccess(indexes);
+    assert(validateAccess(indexes));
     std::size_t idx = calculateLinearIndex(indexes);
     return elements[idx];
 }
 
 template<typename T>
-void NDArray<T>::validateAccess(const std::vector<std::size_t>& indexes)
+bool NDArray<T>::validateAccess(const std::vector<std::size_t>& indexes)
 {
-    if (indexes.size() != dimensions.size())
-        THROW("Access to invalid dimension");
+    if(indexes.size() != dimensions.size())
+        return false;
 
     for (std::size_t it = 0; it < dimensions.size(); ++it)
         if (indexes[it] > dimensions[it] - 1)
-            THROW("Access to invalid index");
+            return false;
+
+    return true;
 }
 
 template<typename T>
